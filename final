@@ -1,0 +1,73 @@
+# Write your code here
+import random
+
+words = ['python', 'java', 'kotlin', 'javascript']
+
+word = 'kotlin'
+
+blank = list("-" * len(word))
+guess_word = "".join(blank)
+n = 0
+lives = 8
+invalid = []
+print("H A N G M A N")
+while True:
+    op = input('Type "play" to play the game, "exit" to quit:')
+    if op != "play" and op != "exit":
+        continue
+    elif op == "play":
+        while lives > 0 and guess_word != word:
+            print()
+            print(guess_word)
+            letter = input("Input a letter:")
+    
+            if len(letter) != 1 and letter != "":
+                print("You should input a single letter")
+                continue
+    
+            elif letter.isupper():
+                print("Please enter a lowercase English letter")
+                continue
+        
+            elif not letter.isalpha():
+                print("Please enter a lowercase English letter")
+                continue
+
+            elif letter in word and letter not in guess_word:
+                i = word.count(letter)
+                if i > 1:
+                    for _ in range(0, i):
+                        x = word.index(letter, n, len(word))
+                        blank[x] = letter
+                        n = x + 1
+                    guess_word = "".join(blank)
+                    continue
+                else:
+                    x = word.index(letter)
+                    blank[x] = letter
+                    guess_word = "".join(blank)
+                    continue
+            
+            elif letter in word and letter in guess_word:
+                print("You've already guessed this letter")
+                invalid += [letter]
+                continue
+            elif letter not in word and letter in invalid:
+                print("You've already guessed this letter")
+                continue
+            elif letter not in word and letter not in invalid:
+                print("That letter doesn't appear in the word")
+                invalid += letter
+                lives = lives - 1
+                continue
+
+        if guess_word == word:
+            print("guessed_word")
+            print(f"You guessed the word {guess_word}!") 
+            print("You survived!")
+            continue
+        else: 
+            print("You lost!")
+            continue
+    elif op == "exit":
+        break
